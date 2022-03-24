@@ -1,0 +1,19 @@
+!SESSION 2022-03-24 21:33:10.253 -----------------------------------------------
+eclipse.buildId=Version 1.9.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_GPIO\.cproject
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_GPIO\.cproject
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-03-24 21:33:26.772
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-24 21:33:26.815
+!MESSAGE Log4j initialized with config file E:\Workspace\STM32_LL_EXAMPLES\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-24 21:33:28.953
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-24 21:33:32.669
+!MESSAGE Indexed 'STM32F4_LL_GPIO' (10 sources, 90 headers) in 1.9 sec: 7,288 declarations; 17,980 references; 5 unresolved inclusions; 686 syntax errors; 1,578 unresolved names (5.9%)
