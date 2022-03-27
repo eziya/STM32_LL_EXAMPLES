@@ -254,3 +254,23 @@ org.eclipse.core.runtime.CoreException: Setup exceptions
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-03-27 21:46:26.966
 !MESSAGE Indexed 'STM32F4_LL_TIMER_BASIC' (15 sources, 94 headers) in 0.856 sec: 8,349 declarations; 24,798 references; 5 unresolved inclusions; 997 syntax errors; 2,099 unresolved names (6%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-27 22:01:34.502
+!MESSAGE Indexed 'STM32F4_LL_TIMER_BASIC' (30 sources, 134 headers) in 1.52 sec: 11,036 declarations; 54,215 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.22%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-27 22:04:10.590
+!MESSAGE Indexed 'STM32F4_LL_TIMER_BASIC' (15 sources, 96 headers) in 0.819 sec: 8,358 declarations; 27,885 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.4%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-27 22:07:47.432
+!MESSAGE Indexed 'STM32F4_LL_TIMER_GENERAL' (15 sources, 95 headers) in 0.891 sec: 8,356 declarations; 27,864 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.4%)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 22:37:05.032
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 22:37:21.300
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2022-03-27 22:44:06.702
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.debug.ui.actions.DsfSuspendCommand$4$1@4496946a): Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Suspend operation timeout.' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2022-03-27 22:44:06.702
+!MESSAGE Suspend operation timeout.
