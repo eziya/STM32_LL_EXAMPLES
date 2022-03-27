@@ -251,3 +251,6 @@ org.eclipse.core.runtime.CoreException: Setup exceptions
 
 !ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:56:36.287
 !MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-27 21:46:26.966
+!MESSAGE Indexed 'STM32F4_LL_TIMER_BASIC' (15 sources, 94 headers) in 0.856 sec: 8,349 declarations; 24,798 references; 5 unresolved inclusions; 997 syntax errors; 2,099 unresolved names (6%)
