@@ -233,3 +233,21 @@ org.eclipse.core.runtime.CoreException: Setup exceptions
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
 !SUBENTRY 1 com.st.stm32cube.ide.mcu.debug.launch 4 0 2022-03-27 20:13:12.080
 !MESSAGE Setup exceptions
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-27 20:26:48.522
+!MESSAGE Indexed 'STM32F4_LL_UART_DMA' (30 sources, 112 headers) in 1.32 sec: 9,294 declarations; 32,944 references; 6 unresolved inclusions; 838 syntax errors; 2,007 unresolved names (4.5%)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:55:19.926
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:55:44.667
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:55:55.729
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:56:07.454
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2022-03-27 20:56:36.287
+!MESSAGE Won't launch debug session since we failed to locate the binary.
