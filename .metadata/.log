@@ -274,3 +274,21 @@ org.eclipse.core.runtime.CoreException: Setup exceptions
 !MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.debug.ui.actions.DsfSuspendCommand$4$1@4496946a): Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Suspend operation timeout.' resulted in an error.
 !SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2022-03-27 22:44:06.702
 !MESSAGE Suspend operation timeout.
+!SESSION 2022-03-28 19:45:34.310 -----------------------------------------------
+eclipse.buildId=Version 1.9.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-03-28 19:45:41.502
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-28 19:45:41.596
+!MESSAGE Log4j initialized with config file E:\Workspace\STM32_LL_EXAMPLES\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-28 19:45:44.036
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-28 19:53:53.063
+!MESSAGE Indexed 'STM32F4_LL_TIMER_GENERAL_OC' (15 sources, 94 headers) in 2.06 sec: 8,351 declarations; 24,886 references; 5 unresolved inclusions; 997 syntax errors; 2,099 unresolved names (5.9%)
