@@ -295,3 +295,22 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-03-28 20:16:24.697
 !MESSAGE Indexed 'STM32F4_LL_TIMER_GENERAL_PWM' (15 sources, 95 headers) in 1.08 sec: 8,357 declarations; 28,019 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.4%)
+!SESSION 2022-03-29 20:55:50.291 -----------------------------------------------
+eclipse.buildId=Version 1.9.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_ADC_SINGLE_CONVERSION\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_ADC_SINGLE_CONVERSION\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-03-29 20:56:01.400
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-29 20:56:01.493
+!MESSAGE Log4j initialized with config file E:\Workspace\STM32_LL_EXAMPLES\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-29 20:56:04.048
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-03-29 20:56:07.852
+!MESSAGE Indexed 'STM32F4_LL_ADC_SINGLE_CONVERSION' (13 sources, 92 headers) in 1.95 sec: 7,656 declarations; 20,737 references; 5 unresolved inclusions; 791 syntax errors; 1,798 unresolved names (6%)
