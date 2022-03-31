@@ -19,8 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dac.h"
-#include "dma.h"
-#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -61,6 +59,33 @@ void SystemClock_Config(void);
 
 uint16_t IV[SAMPLES];
 uint16_t value;
+
+void DelayInit(void)
+{
+  CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk;
+  CoreDebug->DEMCR |=  CoreDebug_DEMCR_TRCENA_Msk;
+
+  DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
+  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
+
+  DWT->CYCCNT = 0;
+
+  /* 3 NO OPERATION instructions */
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+}
+
+void DelayUS(uint32_t us) {
+  uint32_t cycles = (SystemCoreClock/1000000L)*us;
+  uint32_t start = DWT->CYCCNT;
+  volatile uint32_t cnt;
+
+  do
+  {
+    cnt = DWT->CYCCNT - start;
+  } while(cnt < cycles);
+}
 
 /* USER CODE END 0 */
 
@@ -106,36 +131,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_DAC_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
-  // configure DMA source & target
-  LL_DMA_ConfigAddresses(
-      DMA1,
-      LL_DMA_STREAM_6,
-      (uint32_t)IV,
-      LL_DAC_DMA_GetRegAddr(DAC, LL_DAC_CHANNEL_2, LL_DAC_DMA_REG_DATA_12BITS_RIGHT_ALIGNED),
-      LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-
-  // configure data length
-  LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, SAMPLES);
-
-  // enable DMA stream
-  LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_6);
-
-  // enable trigger for DAC channel2
-  LL_DAC_EnableTrigger(DAC, LL_DAC_CHANNEL_2);
-
-  // enable DMA Request for DAC channel2
-  LL_DAC_EnableDMAReq(DAC, LL_DAC_CHANNEL_2);
+  // initialize data watchpoint trigger for us delay
+  DelayInit();
 
   // enable DAC channel2
   LL_DAC_Enable(DAC, LL_DAC_CHANNEL_2);
-
-  // enable TIM6 for TRGO
-  LL_TIM_EnableCounter(TIM6);
 
   /* USER CODE END 2 */
 
@@ -143,6 +146,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    /* 200 * 100us = 20ms, 1/0.02 = 50Hz sine wave */
+    for(int i=0; i < SAMPLES; i++)
+    {
+      LL_DAC_ConvertData12RightAligned(DAC, LL_DAC_CHANNEL_2, IV[i]);
+      DelayUS(100);
+    }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
