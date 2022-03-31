@@ -152,7 +152,7 @@ int main(void)
 
     // read Vrefint channel data
     adcValChVrefint = LL_ADC_REG_ReadConversionData12(ADC1);
-    float Vrefint = (float)adcValChVrefint * 3.3f / 4096;
+    float Vrefint = (float)adcValChVrefint * 3.3f / 4096.0f;
 
     // print adc results
     printf("ADC CH1: %d, TEMP: %2.1f, Vrefint: %1.2f\r\n", adcValCh1, temp, Vrefint);

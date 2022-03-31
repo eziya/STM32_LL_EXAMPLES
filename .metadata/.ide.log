@@ -18,3 +18,24 @@
 
 2022-03-28 19:45:41,612 [INFO] Activator:178 - !SESSION log4j initialized
 2022-03-28 19:45:43,877 [ERROR] AnalyticsContext:980 - The ST intranet updater server is unknown: mcucrossselector.codex.cro.st.com
+2022-03-29 20:56:01,494 [INFO] Activator:177 - 
+
+
+2022-03-29 20:56:01,503 [INFO] Activator:178 - !SESSION log4j initialized
+2022-03-29 20:56:03,888 [ERROR] AnalyticsContext:980 - The ST intranet updater server is unknown: mcucrossselector.codex.cro.st.com
+2022-03-30 20:57:55,150 [INFO] Activator:177 - 
+
+
+2022-03-30 20:57:55,164 [INFO] Activator:178 - !SESSION log4j initialized
+2022-03-30 20:57:59,256 [ERROR] AnalyticsContext:980 - The ST intranet updater server is unknown: mcucrossselector.codex.cro.st.com
+2022-03-30 21:43:27,027 [ERROR] ConfigurationRetriever:139 - IOException on connection: connect timed out
+2022-03-30 23:10:03,455 [INFO] Activator:177 - 
+
+
+2022-03-30 23:10:03,457 [INFO] Activator:178 - !SESSION log4j initialized
+2022-03-30 23:10:07,312 [ERROR] AnalyticsContext:980 - The ST intranet updater server is unknown: mcucrossselector.codex.cro.st.com
+2022-03-31 18:38:38,012 [INFO] Activator:177 - 
+
+
+2022-03-31 18:38:38,019 [INFO] Activator:178 - !SESSION log4j initialized
+2022-03-31 18:38:42,250 [ERROR] AnalyticsContext:980 - The ST intranet updater server is unknown: mcucrossselector.codex.cro.st.com
