@@ -58,6 +58,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+// bme280 variables
 float temperature;
 float humidity;
 float pressure;
@@ -66,6 +68,7 @@ struct bme280_dev dev;
 struct bme280_data comp_data;
 int8_t rslt;
 
+// support printf
 int __io_putchar (int ch)
 {
   while (!LL_USART_IsActiveFlag_TXE(USART2));
@@ -73,52 +76,36 @@ int __io_putchar (int ch)
   return ch;
 }
 
-// Master Transmit
+// Master transmitter
 int8_t I2C_MasterTx(uint8_t devAddr, uint8_t* buffer, uint16_t len, uint16_t ms)
 {
   // timeout counter
   uint16_t cnt = 0;
 
-  // 1. enable I2C
-  if(!LL_I2C_IsEnabled(I2C1))
-  {
-    LL_I2C_Enable(I2C1);
-  }
-
-  // 2. configure ACK
-  LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-
-  // 3. wait busy condition clear
-  while(LL_I2C_IsActiveFlag_BUSY(I2C1))
-  {
-    LL_mDelay(1);
-    if(cnt++ > ms) return -1;
-  }
-
-  // 4. start condition
+  // 1. start condition
   LL_I2C_GenerateStartCondition(I2C1);
 
-  // 5. check start bit flag
+  // 2. check start bit flag
   while(!LL_I2C_IsActiveFlag_SB(I2C1))
   {
     LL_mDelay(1);
     if(cnt++ > ms) return -1;
   }
 
-  // 6. write device address (WRITE)
+  // 3. write device address (WRITE)
   LL_I2C_TransmitData8(I2C1, (devAddr << 1) | 0x00);
 
-  // 7. wait address sent
+  // 4. wait address sent
   while(!LL_I2C_IsActiveFlag_ADDR(I2C1))
   {
     LL_mDelay(1);
     if(cnt++ > ms) return -1;
   }
 
-  // 8. clear ADDR flag
+  // 5. clear ADDR flag
   LL_I2C_ClearFlag_ADDR(I2C1);
 
-  // 9. check TXE flag & write data
+  // 6. check TXE flag & write data
   for(int i=0; i < len; i++)
   {
     while(!LL_I2C_IsActiveFlag_TXE(I2C1))
@@ -126,64 +113,66 @@ int8_t I2C_MasterTx(uint8_t devAddr, uint8_t* buffer, uint16_t len, uint16_t ms)
       LL_mDelay(1);
       if(cnt++ > ms) return -1;
     }
+
     LL_I2C_TransmitData8(I2C1, buffer[i]);
   }
 
-  // 8. wait BTF flag (TXE flag set & empty DR condition)
+  // 7. wait BTF flag (TXE flag set & empty DR condition)
   while(!LL_I2C_IsActiveFlag_BTF(I2C1))
   {
     LL_mDelay(1);
     if(cnt++ > ms) return -1;
   }
 
-  // 9. stop condition
+  // 8. stop condition
   LL_I2C_GenerateStopCondition(I2C1);
 
   return 0;
 }
 
-// Master Receive
+// Master receiver
 int8_t I2C_MasterRx(uint8_t devAddr, uint8_t* buffer, uint8_t len, uint16_t ms)
 {
   // timeout counter
   uint16_t cnt = 0;
 
-  // 1. enable I2C
-  if(!LL_I2C_IsEnabled(I2C1))
+  // 1. fast NACK configuration when receiving single byte.
+  if(len == 1)
   {
-    LL_I2C_Enable(I2C1);
+    LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
+  }
+  else
+  {
+    LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
   }
 
-  // 2. configure ACK
-  LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-
-  // 3. start condition
+  // 2. start condition
   LL_I2C_GenerateStartCondition(I2C1);
 
-  // 4. check start bit flag
+  // 3. check start bit flag
   while(!LL_I2C_IsActiveFlag_SB(I2C1))
   {
     LL_mDelay(1);
     if(cnt++ > ms) return -1;
   }
 
-  // 5. write device address (READ)
+  // 4. write device address (READ)
   LL_I2C_TransmitData8(I2C1, (devAddr << 1) | 0x01);
 
-  // 6. wait address sent
+  // 5. wait address sent
   while(!LL_I2C_IsActiveFlag_ADDR(I2C1))
   {
     LL_mDelay(1);
     if(cnt++ > ms) return -1;
   }
 
-  // 7. clear ADDR flag
+  // 6. clear ADDR flag
   LL_I2C_ClearFlag_ADDR(I2C1);
 
-  // 8. check RXNE flag & read data
+  // 7. check RXNE flag & read data
   for(int i = 0; i < len; i++)
   {
-    // 9. response nack at last byte
+    // 8. NACK at last byte
     if(i == len - 1)
     {
       LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
@@ -198,7 +187,7 @@ int8_t I2C_MasterRx(uint8_t devAddr, uint8_t* buffer, uint8_t len, uint16_t ms)
     buffer[i] = LL_I2C_ReceiveData8(I2C1);
   }
 
-  // 10. stop condition
+  // 9. stop condition
   LL_I2C_GenerateStopCondition(I2C1);
 
   return 0;
@@ -207,9 +196,9 @@ int8_t I2C_MasterRx(uint8_t devAddr, uint8_t* buffer, uint8_t len, uint16_t ms)
 int8_t user_i2c_read(uint8_t id, uint8_t reg_addr, uint8_t *data, uint16_t len)
 {
   // send register
-  if(I2C_MasterTx(id, &reg_addr, 1, 10) < 0) return -1;
+  if(I2C_MasterTx(id, &reg_addr, 1, 50) < 0) return -1;
   // read data
-  if(I2C_MasterRx(id, data, len, 10) < 0) return -1;
+  if(I2C_MasterRx(id, data, len, 50) < 0) return -1;
   return 0;
 }
 
@@ -226,7 +215,7 @@ int8_t user_i2c_write(uint8_t id, uint8_t reg_addr, uint8_t *data, uint16_t len)
   memcpy(buf +1, data, len);
 
   //send register + data
-  if(I2C_MasterTx(id, (uint8_t*)buf, len + 1, 10) < 0)
+  if(I2C_MasterTx(id, (uint8_t*)buf, len + 1, 50) < 0)
   {
     free(buf);
     return -1;
@@ -274,6 +263,31 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  // free I2C busy line
+  if(LL_I2C_IsActiveFlag_BUSY(I2C1))
+  {
+    printf("I2C1 is busy. Toggle SCL to free I2C1.\r\n");
+
+    // change SCL to GPIO output
+    LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = LL_GPIO_PIN_8;
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    // toggle SCL
+    for(int i =0; i < 50; i++)
+    {
+      LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_8);
+      LL_mDelay(1);
+    }
+
+    printf("Reset system.\r\n");
+    while(1);
+  }
+
   // initialize BME280
   dev.dev_id = BME280_I2C_ADDR_PRIM;
   dev.intf = BME280_I2C_INTF;
@@ -282,6 +296,11 @@ int main(void)
   dev.delay_ms = user_delay_ms;
 
   rslt = bme280_init(&dev);
+  if(rslt != BME280_OK)
+  {
+    printf("Fail to initialize BME280.\r\n");
+    while(1);
+  }
 
   // configure BME280
   dev.settings.osr_h = BME280_OVERSAMPLING_1X;
@@ -289,6 +308,11 @@ int main(void)
   dev.settings.osr_t = BME280_OVERSAMPLING_2X;
   dev.settings.filter = BME280_FILTER_COEFF_16;
   rslt = bme280_set_sensor_settings(BME280_OSR_PRESS_SEL | BME280_OSR_TEMP_SEL | BME280_OSR_HUM_SEL | BME280_FILTER_SEL, &dev);
+  if(rslt != BME280_OK)
+  {
+    printf("Fail to configure BME280.\r\n");
+    while(1);
+  }
 
   /* USER CODE END 2 */
 
@@ -297,7 +321,7 @@ int main(void)
   while (1)
   {
     // configure FORCED mode, turn into SLEEP mode after sensing
-    rslt = bme280_set_sensor_mode(BME280_FORCED_MODE, &dev);
+    bme280_set_sensor_mode(BME280_FORCED_MODE, &dev);
     dev.delay_ms(40);
     // measure sensors
     rslt = bme280_get_sensor_data(BME280_ALL, &comp_data, &dev);

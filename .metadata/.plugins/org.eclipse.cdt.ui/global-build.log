@@ -1,5 +1,5 @@
-20:02:26 **** Clean-only build of configuration Debug for project STM32F4_LL_I2C_MASTER_BME280 ****
-make -j8 clean 
+21:54:32 **** Clean-only build of configuration Debug for project STM32F4_LL_I2C_MASTER_BME280 ****
+make -j12 clean 
 rm -rf ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.su
 rm -rf ./Core/Startup/startup_stm32f407vgtx.d ./Core/Startup/startup_stm32f407vgtx.o
 rm -rf ./Core/Src/BME280/bme280.d ./Core/Src/BME280/bme280.o ./Core/Src/BME280/bme280.su

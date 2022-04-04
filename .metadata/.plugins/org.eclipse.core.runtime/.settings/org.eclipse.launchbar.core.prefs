@@ -1,7 +1,10 @@
+=\=\=\=\=\=\=
+<<<<<<<=Updated upstream
+>>>>>>>=Stashed changes
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_HAL_I2C_BME280,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_I2C_MASTER_BME280
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINOUS_DMA\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINUOUS_DMA\ Debug/activeLaunchMode=run
@@ -10,8 +13,11 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_SINGLE_CONVERSIO
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_SINGLE_CONVERSION\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_DAC\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_DAC\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_DAC_DMA/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_GPIO\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_GPIO\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_I2C_MASTER_BME280/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_I2C_MASTER_BME280/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_BASIC\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_GENERAL\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_GENERAL\ Debug/activeLaunchTarget=null\:---
