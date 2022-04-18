@@ -1,4 +1,4 @@
-20:54:42 **** Clean-only build of configuration Debug for project STM32F4_LL_SPI_U8G2 ****
+19:52:48 **** Clean-only build of configuration Debug for project STM32F4_LL_SPI_U8G2 ****
 make -j12 clean 
 rm -rf ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.su
 rm -rf ./Core/Startup/startup_stm32f407vgtx.d ./Core/Startup/startup_stm32f407vgtx.o
@@ -8,5 +8,5 @@ rm -rf ./Core/Src/u8g2/u8x8_d_ssd1607_200x200.d ./Core/Src/u8g2/u8x8_d_ssd1607_2
 rm -rf STM32F4_LL_SPI_U8G2.elf STM32F4_LL_SPI_U8G2.list STM32F4_LL_SPI_U8G2.map default.size.stdout
  
 
-20:54:42 Build Finished. 0 errors, 0 warnings. (took 243ms)
+19:52:48 Build Finished. 0 errors, 0 warnings. (took 375ms)
 
