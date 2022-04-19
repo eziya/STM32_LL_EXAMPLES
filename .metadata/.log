@@ -1466,3 +1466,31 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 E:\Workspace\STM32_LL_
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-04-18 20:49:39.978
 !MESSAGE Indexed 'STM32F4_LL_RTC_TIMESTAMP' (15 sources, 95 headers) in 0.875 sec: 8,253 declarations; 26,330 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.42%)
+
+!ENTRY org.eclipse.core.resources 4 566 2022-04-18 21:40:12.735
+!MESSAGE Workspace was not properly initialized or has already shutdown.
+!SESSION 2022-04-19 19:54:59.715 -----------------------------------------------
+eclipse.buildId=Version 1.9.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_RTC_WAKEUP\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_RTC_WAKEUP\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-04-19 19:55:07.245
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-19 19:55:07.308
+!MESSAGE Log4j initialized with config file E:\Workspace\STM32_LL_EXAMPLES\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-19 19:55:12.012
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-04-19 19:55:14.700
+!MESSAGE Indexed 'STM32F4_LL_RTC_WAKEUP' (15 sources, 94 headers) in 2.08 sec: 8,247 declarations; 23,350 references; 5 unresolved inclusions; 1,008 syntax errors; 2,048 unresolved names (6.1%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-04-19 20:26:05.047
+!MESSAGE Indexed 'STM32F4_LL_IWDG' (14 sources, 94 headers) in 1.05 sec: 7,704 declarations; 20,566 references; 5 unresolved inclusions; 831 syntax errors; 1,803 unresolved names (6%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-04-19 20:39:34.604
+!MESSAGE Indexed 'STM32F4_LL_WWDG' (14 sources, 94 headers) in 0.886 sec: 7,711 declarations; 20,606 references; 5 unresolved inclusions; 832 syntax errors; 1,805 unresolved names (6%)
