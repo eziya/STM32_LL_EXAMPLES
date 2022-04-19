@@ -4,7 +4,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_GPIO Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_GPIO_EXTI Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINOUS_DMA\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINUOUS_DMA\ Debug/activeLaunchMode=run
@@ -31,3 +31,5 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_GENERAL_PWM\ D
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_UART\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_UART\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_UART_IT\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_WWDG\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_WWDG\ Debug/activeLaunchTarget=null\:---
