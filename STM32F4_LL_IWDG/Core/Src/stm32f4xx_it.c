@@ -57,7 +57,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-extern uint8_t flagADCEOC;
+
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -197,25 +197,6 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
-
-/**
-  * @brief This function handles ADC1, ADC2 and ADC3 global interrupts.
-  */
-void ADC_IRQHandler(void)
-{
-  /* USER CODE BEGIN ADC_IRQn 0 */
-  if(LL_ADC_IsActiveFlag_EOCS(ADC1))
-  {
-    ADC_EOCSCallback();
-    LL_ADC_ClearFlag_EOCS(ADC1);
-  }
-
-  /* USER CODE END ADC_IRQn 0 */
-
-  /* USER CODE BEGIN ADC_IRQn 1 */
-
-  /* USER CODE END ADC_IRQn 1 */
-}
 
 /* USER CODE BEGIN 1 */
 

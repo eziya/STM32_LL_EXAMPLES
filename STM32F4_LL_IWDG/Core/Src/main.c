@@ -1,29 +1,30 @@
 /* USER CODE BEGIN Header */
 /**
- ******************************************************************************
- * @file           : main.c
- * @brief          : Main program body
- ******************************************************************************
- * @attention
- *
- * Copyright (c) 2022 STMicroelectronics.
- * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dac.h"
+#include "iwdg.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <math.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,42 +55,22 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define PI      3.141592
-#define SAMPLES 200
-
-uint16_t IV[SAMPLES];
-uint16_t value;
-
-void DelayUS(uint32_t us) {
-  uint32_t cycles = (SystemCoreClock/1000000L)*us;
-  uint32_t start = DWT->CYCCNT;
-  volatile uint32_t cnt;
-
-  do
-  {
-    cnt = DWT->CYCCNT - start;
-  } while(cnt < cycles);
+int __io_putchar (int ch)
+{
+  while (!LL_USART_IsActiveFlag_TXE(USART2));
+  LL_USART_TransmitData8(USART2, (char)ch);
+  return ch;
 }
 
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
-  // 200 samples for 360 degree (2*pi)
-  for(int i=0; i < SAMPLES; i++)
-  {
-    // 0 <= sin(x) + 1 <= 2
-    // 0 <= 2048 * (sin(x) + 1) <= 4096
-    value = (uint16_t)rint((sinf(((2*PI)/SAMPLES)*i)+1)*2048);
-    IV[i] = value < 4096 ? value : 4095;
-  }
-
 
   /* USER CODE END 1 */
 
@@ -115,11 +96,20 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DAC_Init();
+  MX_IWDG_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  // enable DAC channel2
-  LL_DAC_Enable(DAC, LL_DAC_CHANNEL_2);
+  // check IWDG reset
+  if(LL_RCC_IsActiveFlag_IWDGRST())
+  {
+    printf("POR with IWDG reset flag.\r\n");
+    LL_RCC_ClearResetFlags();
+  }
+  else
+  {
+    printf("POR without IWDG reset flag.\r\n");
+  }
 
   /* USER CODE END 2 */
 
@@ -127,12 +117,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* 200 * 100us = 20ms, 1/0.02 = 50Hz sine wave */
-    for(int i=0; i < SAMPLES; i++)
+    if(LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_0))
     {
-      LL_DAC_ConvertData12RightAligned(DAC, LL_DAC_CHANNEL_2, IV[i]);
-      LL_mDelay(1);
+      //long delay will cause IWDG reset
+      LL_mDelay(1000);
     }
+
+    //toggle LED
+    LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_12);
+    LL_mDelay(500);
+
+    //reset counter
+    LL_IWDG_ReloadCounter(IWDG);
 
     /* USER CODE END WHILE */
 
@@ -142,9 +138,9 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
@@ -154,15 +150,22 @@ void SystemClock_Config(void)
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
   LL_RCC_HSE_Enable();
 
-  /* Wait till HSE is ready */
+   /* Wait till HSE is ready */
   while(LL_RCC_HSE_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_LSI_Enable();
+
+   /* Wait till LSI is ready */
+  while(LL_RCC_LSI_IsReady() != 1)
   {
 
   }
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
-  /* Wait till PLL is ready */
+   /* Wait till PLL is ready */
   while(LL_RCC_PLL_IsReady() != 1)
   {
 
@@ -172,7 +175,7 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
-  /* Wait till System clock is ready */
+   /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
 
@@ -186,9 +189,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -202,12 +205,12 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
