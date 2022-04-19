@@ -199,22 +199,21 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles ADC1, ADC2 and ADC3 global interrupts.
+  * @brief This function handles RTC wake-up interrupt through EXTI line 22.
   */
-void ADC_IRQHandler(void)
+void RTC_WKUP_IRQHandler(void)
 {
-  /* USER CODE BEGIN ADC_IRQn 0 */
-  if(LL_ADC_IsActiveFlag_EOCS(ADC1))
+  /* USER CODE BEGIN RTC_WKUP_IRQn 0 */
+  if(LL_RTC_IsActiveFlag_WUT(RTC))
   {
-    ADC_EOCSCallback();
-    LL_ADC_ClearFlag_EOCS(ADC1);
+    LL_RTC_ClearFlag_WUT(RTC);
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_22);
   }
 
-  /* USER CODE END ADC_IRQn 0 */
+  /* USER CODE END RTC_WKUP_IRQn 0 */
+  /* USER CODE BEGIN RTC_WKUP_IRQn 1 */
 
-  /* USER CODE BEGIN ADC_IRQn 1 */
-
-  /* USER CODE END ADC_IRQn 1 */
+  /* USER CODE END RTC_WKUP_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

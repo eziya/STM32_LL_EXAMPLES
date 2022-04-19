@@ -18,14 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc.h"
-#include "dma.h"
+#include "rtc.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,8 +55,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t flagDMATC = 0;
-uint16_t adcVal[3];
 
 int __io_putchar (int ch)
 {
@@ -65,6 +62,78 @@ int __io_putchar (int ch)
   LL_USART_TransmitData8(USART2, (char)ch);
   return ch;
 }
+
+void RTCWakeupConfig(void)
+{
+  //1.disable write protection
+  LL_RTC_DisableWriteProtection(RTC);
+
+  //2.disable wakeup timer
+  LL_RTC_WAKEUP_Disable(RTC);
+
+  //3.wait wakeup write flag
+  while(!LL_RTC_IsActiveFlag_WUTW(RTC));
+
+  //4.set clock & counter(1Hz,10sec)
+  LL_RTC_WAKEUP_SetClock(RTC, LL_RTC_WAKEUPCLOCK_CKSPRE);
+  LL_RTC_WAKEUP_SetAutoReload(RTC, 10);
+
+  //5.enable write protection
+  LL_RTC_EnableWriteProtection(RTC);
+}
+
+void EnableWakeup(void)
+{
+  //1.disable write protection
+  LL_RTC_DisableWriteProtection(RTC);
+
+  //2.enable wakeup interrupt
+  LL_RTC_EnableIT_WUT(RTC);
+
+  //3.enable exti22 & rising trigger
+  LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_22);
+  LL_EXTI_EnableRisingTrig_0_31(LL_EXTI_LINE_22);
+
+  //4.enable wakeup timer
+  LL_RTC_WAKEUP_Enable(RTC);
+
+  //5.enable write protection
+  LL_RTC_EnableWriteProtection(RTC);
+}
+
+void DisableWakeup(void)
+{
+  //1.disable write protection
+  LL_RTC_DisableWriteProtection(RTC);
+
+  //2.disable wakeup interrupt
+  LL_RTC_DisableIT_WUT(RTC);
+
+  //3.clear flags(PWR_SB,PWR_WU,RTC_WUT,EXTI22)
+  LL_PWR_ClearFlag_SB();
+  LL_PWR_ClearFlag_WU();
+  LL_RTC_ClearFlag_WUT(RTC);
+  LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_22);
+
+  //4.enable write protection
+  LL_RTC_EnableWriteProtection(RTC);
+}
+
+void EnterStandbyMode(void)
+{
+  //1.enable wakeup
+  EnableWakeup();
+
+  //2.set stanbymode
+  LL_PWR_SetPowerMode(LL_PWR_MODE_STANDBY);
+
+  //3.enter sleep
+  LL_LPM_EnableDeepSleep();
+
+  //4.wait for interrupt
+  __WFI();
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -99,27 +168,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_ADC1_Init();
   MX_USART2_UART_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
 
-  LL_DMA_ConfigAddresses(
-      DMA2,
-      LL_DMA_STREAM_0,
-      LL_ADC_DMA_GetRegAddr(ADC1, LL_ADC_DMA_REG_REGULAR_DATA),
-      (uint32_t)adcVal,
-      LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
-
-  LL_DMA_SetDataLength(DMA2, LL_DMA_STREAM_0, 3);
-
-  LL_DMA_EnableIT_TC(DMA2, LL_DMA_STREAM_0);
-
-  LL_DMA_EnableStream(DMA2, LL_DMA_STREAM_0);
-
-  LL_ADC_Enable(ADC1);
-
-  LL_ADC_REG_StartConversionSWStart(ADC1);
+  if(LL_PWR_IsActiveFlag_SB())
+  {
+    printf("Exit from Standby Mode. Disable Wakeup.\r\n");
+    DisableWakeup();
+  }
 
   /* USER CODE END 2 */
 
@@ -128,18 +185,14 @@ int main(void)
   while (1)
   {
 
-    while(!flagDMATC);
+    if(LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_0))
+    {
+      printf("Entering Standby Mode.\r\n");
+      EnterStandbyMode();
+    }
 
-    float temp = (float)adcVal[1] * 3.3f / 4096.0f;
-    temp = (temp - 0.76) / 0.0025 + 25;
-
-    float Vrefint = (float)adcVal[2] * 3.3f / 4096;
-
-    // print adc results
-    printf("ADC CH1: %d, TEMP: %2.1f, Vrefint: %1.2f\r\n", adcVal[0], temp, Vrefint);
-
-    flagDMATC = 0;
-
+    LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_12);
+    LL_mDelay(500);
 
     /* USER CODE END WHILE */
 
@@ -166,6 +219,14 @@ void SystemClock_Config(void)
   {
 
   }
+  LL_RCC_LSI_Enable();
+
+   /* Wait till LSI is ready */
+  while(LL_RCC_LSI_IsReady() != 1)
+  {
+
+  }
+  LL_PWR_EnableBkUpAccess();
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
