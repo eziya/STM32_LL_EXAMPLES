@@ -57,9 +57,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -101,19 +101,43 @@ int main(void)
     {
       //simple toggle pin
       LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_12);
+      LL_mDelay(50);
+      LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_12);
+      LL_mDelay(50);
+
+      LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
+      LL_mDelay(50);
+      LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
+      LL_mDelay(50);
+
+      LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_14);
+      LL_mDelay(50);
+      LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_14);
+      LL_mDelay(50);
 
       //check output pin & toggle pin
-      if(LL_GPIO_IsOutputPinSet(GPIOD, LL_GPIO_PIN_14))
+      if(LL_GPIO_IsOutputPinSet(GPIOD, LL_GPIO_PIN_15))
       {
-        LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_14);
+        LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_15);
       }
       else
       {
-        LL_GPIO_SetOutputPin(GPIOD, LL_GPIO_PIN_14);
+        LL_GPIO_SetOutputPin(GPIOD, LL_GPIO_PIN_15);
       }
-    }
 
-    LL_mDelay(100);
+      LL_mDelay(50);
+
+      if(LL_GPIO_IsOutputPinSet(GPIOD, LL_GPIO_PIN_15))
+      {
+        LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_15);
+      }
+      else
+      {
+        LL_GPIO_SetOutputPin(GPIOD, LL_GPIO_PIN_15);
+      }
+
+      LL_mDelay(50);
+    }
 
     /* USER CODE END WHILE */
 
@@ -123,9 +147,9 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
@@ -136,7 +160,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_SetCalibTrimming(16);
   LL_RCC_HSI_Enable();
 
-   /* Wait till HSI is ready */
+  /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
 
@@ -144,7 +168,7 @@ void SystemClock_Config(void)
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_8, 168, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
-   /* Wait till PLL is ready */
+  /* Wait till PLL is ready */
   while(LL_RCC_PLL_IsReady() != 1)
   {
 
@@ -154,7 +178,7 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
-   /* Wait till System clock is ready */
+  /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
 
@@ -168,9 +192,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -184,12 +208,12 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

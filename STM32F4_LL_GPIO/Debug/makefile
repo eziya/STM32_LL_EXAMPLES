@@ -60,8 +60,8 @@ all: main-build
 main-build: STM32F4_LL_GPIO.elf secondary-outputs
 
 # Tool invocations
-STM32F4_LL_GPIO.elf STM32F4_LL_GPIO.map: $(OBJS) $(USER_OBJS) E:\Workspace\STM32_LL\STM32F4_LL_GPIO\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32F4_LL_GPIO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Workspace\STM32_LL\STM32F4_LL_GPIO\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_LL_GPIO.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32F4_LL_GPIO.elf STM32F4_LL_GPIO.map: $(OBJS) $(USER_OBJS) E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_GPIO\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32F4_LL_GPIO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Workspace\STM32_LL_EXAMPLES\STM32F4_LL_GPIO\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_LL_GPIO.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
