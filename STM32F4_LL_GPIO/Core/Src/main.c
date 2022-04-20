@@ -57,9 +57,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -89,6 +89,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+
+  // Useful gpio configuration LL api
+  // LL_AHB1_GRP1_EnableClock
+  // LL_GPIO_SetPinMode(GPIOx, Pin, Mode);
+  // LL_GPIO_SetPinOutputType(GPIOx, PinMask, OutputType);
+  // LL_GPIO_SetPinPull(GPIOx, Pin, Pull);
+  // LL_GPIO_SetPinSpeed(GPIOx, Pin, Speed);
 
   /* USER CODE END 2 */
 
@@ -147,43 +154,57 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
+  // configure flash latency
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
   while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_5)
   {
   }
-  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
-  LL_RCC_HSI_SetCalibTrimming(16);
-  LL_RCC_HSI_Enable();
 
-  /* Wait till HSI is ready */
-  while(LL_RCC_HSI_IsReady() != 1)
+  // configure regulator
+  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
+
+  // HSE clock enable
+  LL_RCC_HSE_Enable();
+
+   /* Wait till HSE is ready */
+  while(LL_RCC_HSE_IsReady() != 1)
   {
 
   }
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_8, 168, LL_RCC_PLLP_DIV_2);
+
+  // configure PLL
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 168, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
-  /* Wait till PLL is ready */
+   /* Wait till PLL is ready */
   while(LL_RCC_PLL_IsReady() != 1)
   {
 
   }
+
+  // configure prescaler values for each bus
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+
+  // configure system clock mux
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
-  /* Wait till System clock is ready */
+   /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
 
   }
+
+  // configure 1ms Systick
   LL_Init1msTick(168000000);
+
+  // configure system clock value
   LL_SetSystemCoreClock(168000000);
 }
 
@@ -192,9 +213,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -208,12 +229,12 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

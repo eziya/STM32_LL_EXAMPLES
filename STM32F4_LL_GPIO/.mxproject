@@ -9,18 +9,18 @@ CDefines=USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTU
 [PreviousGenFiles]
 AdvancedFolderStructure=true
 HeaderFileListSize=4
-HeaderFiles#0=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Inc/gpio.h
-HeaderFiles#1=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Inc/stm32f4xx_it.h
-HeaderFiles#2=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Inc/stm32_assert.h
-HeaderFiles#3=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Inc/main.h
+HeaderFiles#0=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Inc/gpio.h
+HeaderFiles#1=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Inc/stm32f4xx_it.h
+HeaderFiles#2=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Inc/stm32_assert.h
+HeaderFiles#3=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Inc/main.h
 HeaderFolderListSize=1
-HeaderPath#0=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Inc
+HeaderPath#0=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Inc
 HeaderFiles=;
 SourceFileListSize=3
-SourceFiles#0=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Src/gpio.c
-SourceFiles#1=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Src/stm32f4xx_it.c
-SourceFiles#2=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Src/main.c
+SourceFiles#0=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Src/gpio.c
+SourceFiles#1=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Src/stm32f4xx_it.c
+SourceFiles#2=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Src/main.c
 SourceFolderListSize=1
-SourcePath#0=E:/Workspace/STM32_LL/STM32F4_LL_GPIO/Core/Src
+SourcePath#0=E:/Workspace/STM32_LL_EXAMPLES/STM32F4_LL_GPIO/Core/Src
 SourceFiles=;
 
