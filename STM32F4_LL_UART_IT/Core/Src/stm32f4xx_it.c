@@ -61,6 +61,24 @@
 /* USER CODE BEGIN EV */
 extern ring_buffer_t ring_buffer;
 extern bool usart2Idle;
+
+void UART2_ErrorCallback(void)
+{
+  LL_USART_DisableIT_RXNE(USART2);
+  LL_USART_DisableIT_IDLE(USART2);
+  LL_USART_DisableIT_ERROR(USART2);
+
+  LL_USART_ClearFlag_RXNE(USART2);
+  LL_USART_ClearFlag_IDLE(USART2);
+  LL_USART_ClearFlag_FE(USART2);
+  LL_USART_ClearFlag_OVR(USART2);
+  LL_USART_ClearFlag_NE(USART2);
+
+  LL_USART_Disable(USART2);
+
+  //add your error handling here
+}
+
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -208,17 +226,36 @@ void USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
 
+  //read data register not exmpty
   if(LL_USART_IsActiveFlag_RXNE(USART2))
   {
     ring_buffer_queue(&ring_buffer, LL_USART_ReceiveData8(USART2));
     LL_USART_ClearFlag_RXNE(USART2);
   }
 
-
+  //idle
   if(LL_USART_IsActiveFlag_IDLE(USART2))
   {
     usart2Idle = true;
     LL_USART_ClearFlag_IDLE(USART2);
+  }
+
+  // frame error
+  if(LL_USART_IsActiveFlag_FE(USART2))
+  {
+    UART2_ErrorCallback();
+  }
+
+  // overrun error
+  if(LL_USART_IsActiveFlag_ORE(USART2))
+  {
+    UART2_ErrorCallback();
+  }
+
+  // noise error
+  if(LL_USART_IsActiveFlag_NE(USART2))
+  {
+    UART2_ErrorCallback();
   }
 
   /* USER CODE END USART2_IRQn 0 */

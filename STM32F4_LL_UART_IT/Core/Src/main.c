@@ -106,6 +106,7 @@ int main(void)
   // enable interrupts
   LL_USART_EnableIT_RXNE(USART2);
   LL_USART_EnableIT_IDLE(USART2);
+  LL_USART_EnableIT_ERROR(USART2);
 
   // initialize buffer
   ring_buffer_init(&ring_buffer);
@@ -125,7 +126,7 @@ int main(void)
       //dequeue buffer
       while(!ring_buffer_is_empty(&ring_buffer))
       {
-        ring_buffer_dequeue(&ring_buffer, &txData);
+        ring_buffer_dequeue(&ring_buffer, (char*)&txData);
         UART2_Tx(txData);
       }
 

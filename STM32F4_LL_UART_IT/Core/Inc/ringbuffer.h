@@ -15,7 +15,7 @@
  * can be contained in the buffer.
  * The buffer size must be a power of two.
 */
-#define RING_BUFFER_SIZE 64
+#define RING_BUFFER_SIZE 256
 
 #if (RING_BUFFER_SIZE & (RING_BUFFER_SIZE - 1)) != 0
 #error "RING_BUFFER_SIZE must be a power of two"
