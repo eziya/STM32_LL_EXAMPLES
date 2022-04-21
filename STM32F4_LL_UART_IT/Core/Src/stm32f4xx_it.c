@@ -71,7 +71,7 @@ void UART2_ErrorCallback(void)
   LL_USART_ClearFlag_RXNE(USART2);
   LL_USART_ClearFlag_IDLE(USART2);
   LL_USART_ClearFlag_FE(USART2);
-  LL_USART_ClearFlag_OVR(USART2);
+  LL_USART_ClearFlag_ORE(USART2);
   LL_USART_ClearFlag_NE(USART2);
 
   LL_USART_Disable(USART2);

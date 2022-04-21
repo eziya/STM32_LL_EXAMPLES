@@ -59,6 +59,8 @@ void MX_USART2_UART_Init(void)
 
   /* USER CODE BEGIN USART2_Init 1 */
 
+  LL_USART_SetBaudRate(USARTx, PeriphClk, OverSampling, BaudRate)
+
   /* USER CODE END USART2_Init 1 */
   USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
