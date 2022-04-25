@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,9 +101,6 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-
-  // eanble uart for debugging
-  LL_USART_Enable(USART2);
 
   // enable update interrupt
   // freq = 84000000 / (839+1) / (9999+1) = 10Hz
