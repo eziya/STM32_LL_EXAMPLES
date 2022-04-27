@@ -46,6 +46,8 @@ void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 1 */
 
   /* USER CODE END TIM4_Init 1 */
+
+  //84000000 / 840 / 1000 = 100Hz
   TIM_InitStruct.Prescaler = 839;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
   TIM_InitStruct.Autoreload = 999;
@@ -53,6 +55,8 @@ void MX_TIM4_Init(void)
   LL_TIM_Init(TIM4, &TIM_InitStruct);
   LL_TIM_DisableARRPreload(TIM4);
   LL_TIM_SetClockSource(TIM4, LL_TIM_CLOCKSOURCE_INTERNAL);
+
+  // init pwm: enable preload, pwm1(high to low), disable fast mode
   LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH1);
   TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
   TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
@@ -61,17 +65,22 @@ void MX_TIM4_Init(void)
   TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
   LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
   LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH1);
+
   LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH2);
   LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH2, &TIM_OC_InitStruct);
   LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH2);
+
   LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH3);
   LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH3, &TIM_OC_InitStruct);
   LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH3);
+
   LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH4);
   LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH4, &TIM_OC_InitStruct);
   LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH4);
+
   LL_TIM_SetTriggerOutput(TIM4, LL_TIM_TRGO_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM4);
+
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
