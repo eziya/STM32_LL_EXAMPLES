@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -126,7 +126,6 @@ int main(void)
     // read channel1 data
     adcValCh1 = LL_ADC_REG_ReadConversionData12(ADC1);
 
-
     // start conversion
     LL_ADC_REG_StartConversionSWStart(ADC1);
 
@@ -152,10 +151,13 @@ int main(void)
 
     // read Vrefint channel data
     adcValChVrefint = LL_ADC_REG_ReadConversionData12(ADC1);
-    float Vrefint = (float)adcValChVrefint * 3.3f / 4096.0f;
+
+    // Vdd = 3.3V * Vrefint_cal / Vrefint
+    // (*VREFINT_CAL_ADDR) is calibrated value when Vdda is 3.3V
+    float Vdd = 3.3f * (*VREFINT_CAL_ADDR) / adcValChVrefint;
 
     // print adc results
-    printf("ADC CH1: %d, TEMP: %2.1f, Vrefint: %1.2f\r\n", adcValCh1, temp, Vrefint);
+    printf("ADC CH1: %d, TEMP: %2.1f, Vdd: %1.2f\r\n", adcValCh1, temp, Vdd);
 
     LL_mDelay(1000);
 
