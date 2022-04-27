@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -139,17 +139,18 @@ int main(void)
 
     printfCnt++;
 
-    // convert to temperature & Vref internal
+    // convert to temperature & Vdd
     float temp = (float)adcVal[1] * 3.3f / 4096.0f;
     temp = (temp - 0.76) / 0.0025 + 25;
 
-    float Vrefint = (float)adcVal[2] * 3.3f / 4096.0f;
+    // Vdd = 3.3V * Vrefint_cal / Vrefint
+    float Vdd = 3.3f * (*VREFINT_CAL_ADDR) / (float)adcVal[2];
 
     // print results
     if(printfCnt > 5000)
     {
       printfCnt = 0;
-      printf("ADC CH1: %d, TEMP: %2.1f, Vrefint: %1.2f\r\n", adcVal[0], temp, Vrefint);
+      printf("ADC CH1: %d, TEMP: %2.1f, Vdd: %1.2f\r\n", adcVal[0], temp, Vdd);
     }
 
     // clear flag
