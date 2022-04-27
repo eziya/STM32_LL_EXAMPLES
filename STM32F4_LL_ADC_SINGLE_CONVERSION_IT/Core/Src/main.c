@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -145,14 +145,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // calculate temperature & Vref internal
+    // calculate temperature & Vdd
     float temp = (float)adcValChTemp * 3.3f / 4096.0f;
     temp = (temp - 0.76) / 0.0025 + 25;
 
-    float Vrefint = (float)adcValChVrefint * 3.3f / 4096.0f;
+    // Vdd = 3.3V * Vrefint_cal / Vrefint
+    // (*VREFINT_CAL_ADDR) is calibrated value when Vdda is 3.3V
+    float Vdd = 3.3f *(*VREFINT_CAL_ADDR) / adcValChVrefint;
 
-    // print results
-    printf("ADC CH1: %d, TEMP: %2.1f, Vrefint: %1.2f\r\n", adcValCh1, temp, Vrefint);
+    // print adc results
+    printf("ADC CH1: %d, TEMP: %2.1f, Vdd: %1.2f\r\n", adcValCh1, temp, Vdd);
 
     LL_mDelay(1000);
 
