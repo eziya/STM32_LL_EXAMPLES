@@ -18,4 +18,5 @@ STM32F4 LL Driver Examples
 15. RTC Alarm: https://blog.naver.com/eziya76/222721080054
 16. RTC Timestamp: https://blog.naver.com/eziya76/222721096269
 17. RTC Wakeup(Standby Mode): https://blog.naver.com/eziya76/222721129525
-18. 
+18. SPI EEPROM(25LC010A): https://blog.naver.com/eziya76/222722087191
+19. 
