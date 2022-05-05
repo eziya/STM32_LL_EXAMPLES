@@ -1,4 +1,4 @@
-22:36:53 **** Clean-only build of configuration Debug for project STM32F4_LL_DAC ****
+20:43:42 **** Clean-only build of configuration Debug for project STM32F4_LL_DAC ****
 make -j12 clean 
 rm -rf ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.su ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.su
 rm -rf ./Core/Startup/startup_stm32f407vgtx.d ./Core/Startup/startup_stm32f407vgtx.o
@@ -6,5 +6,5 @@ rm -rf ./Core/Src/dac.d ./Core/Src/dac.o ./Core/Src/dac.su ./Core/Src/gpio.d ./C
 rm -rf STM32F4_LL_DAC.elf STM32F4_LL_DAC.list STM32F4_LL_DAC.map default.size.stdout
  
 
-22:36:54 Build Finished. 0 errors, 0 warnings. (took 236ms)
+20:43:42 Build Finished. 0 errors, 0 warnings. (took 187ms)
 

@@ -1,0 +1,179 @@
+/*
+ * 25lc010a.c
+ *
+ *  Created on: 2022. 5. 05.
+ *      Author: KIKI
+ */
+
+#include "25lc010a.h"
+
+SPI_TypeDef* EEPROM_SPI;
+GPIO_TypeDef* EEPROM_SS_Port;
+uint16_t EEPROM_SS_Pin;
+
+static void SS_Select();
+static void SS_Deselect();
+
+void EEPROM_Init(SPI_TypeDef* spi, GPIO_TypeDef* ss_port, uint16_t ss_pin)
+{
+	EEPROM_SPI = spi;
+	EEPROM_SS_Port = ss_port;
+	EEPROM_SS_Pin = ss_pin;
+}
+
+void EEPROM_WriteEnable(void)
+{
+	SS_Select();
+
+	// send wren command
+	LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_WREN);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	SS_Deselect();
+}
+
+void EEPROM_ReadByte(uint8_t address, uint8_t* ret)
+{
+	SS_Select();
+
+	// send read command
+	LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_READ);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	// send target address
+	LL_SPI_TransmitData8(EEPROM_SPI, address);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	// wait data register & read data
+	while(!LL_SPI_IsActiveFlag_RXNE(EEPROM_SPI));
+	*ret = LL_SPI_ReceiveData8(EEPROM_SPI);
+
+	SS_Deselect();
+}
+
+void EEPROM_ReadBuffer(uint8_t address, uint8_t *buffer, uint8_t length)
+{
+  // read multiple bytes
+	for(uint8_t i=0; i < length; i++)
+	{
+		EEPROM_ReadByte(address+i, &buffer[i]);
+	}
+}
+
+void EEPROM_WriteByte(uint8_t address, uint8_t data)
+{
+  // write enable
+	EEPROM_WriteEnable();
+
+	SS_Select();
+
+	// send write command
+	LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_WRITE);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	// send target address
+	LL_SPI_TransmitData8(EEPROM_SPI, address);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	// send single byte
+	LL_SPI_TransmitData8(EEPROM_SPI, data);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	SS_Deselect();
+
+	/* Wait write cycle time 5ms */
+	LL_mDelay(5);
+}
+
+void EEPROM_WriteBuffer(uint8_t address, uint8_t *buffer, uint8_t length)
+{
+  // write enable
+	EEPROM_WriteEnable();
+
+	SS_Select();
+
+	// send write command
+	LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_WRITE);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	// send target address
+	LL_SPI_TransmitData8(EEPROM_SPI, address);
+	while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+	for(uint8_t i = 0; i < length; i++)
+	{
+		// when page is changed while writing, you need to send command & address again.
+		if( (address+i) % EEPROM_PAGE_SIZE == 0 && i != 0 )
+		{
+			SS_Deselect();
+			LL_mDelay(5);
+
+			// write enable
+			EEPROM_WriteEnable();
+
+			SS_Select();
+
+			// send write command
+			LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_WRITE);
+			while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+			// send target address
+			LL_SPI_TransmitData8(EEPROM_SPI, address + i);
+			while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+		}
+
+		// send data
+		LL_SPI_TransmitData8(EEPROM_SPI, buffer[i]);
+		while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+	}
+
+	SS_Deselect();
+
+	/* Wait write cycle time 5ms */
+	LL_mDelay(5);
+}
+
+void EEPROM_EraseAll(void)
+{
+	uint8_t address = 0x0;
+
+	EEPROM_WriteEnable();
+
+	while(address < EEPROM_TOTAL_SIZE)
+	{
+		SS_Select();
+
+		// send write command
+		LL_SPI_TransmitData8(EEPROM_SPI, EEPROM_CMD_WRITE);
+		while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+		// send address
+		LL_SPI_TransmitData8(EEPROM_SPI, address);
+		while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+
+		// send data(0x0) EEPROM_PAGE_SIZE times
+		for(uint8_t i=0; i < EEPROM_PAGE_SIZE; i++)
+		{
+		  LL_SPI_TransmitData8(EEPROM_SPI, 0x0);
+		  while(!LL_SPI_IsActiveFlag_TXE(EEPROM_SPI));
+		}
+
+		SS_Deselect();
+
+		/* Wait write cycle time 5ms */
+		LL_mDelay(5);
+		address += EEPROM_PAGE_SIZE;
+	}
+}
+
+static void SS_Select()
+{
+	LL_GPIO_ResetOutputPin(EEPROM_SS_Port, EEPROM_SS_Pin);
+	LL_mDelay(1);
+}
+
+static void SS_Deselect()
+{
+  LL_GPIO_SetOutputPin(EEPROM_SS_Port, EEPROM_SS_Pin);
+  LL_mDelay(1);
+}

@@ -4,7 +4,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_SPI_U8G2 Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINOUS_DMA\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_ADC_CONTINUOUS_DMA\ Debug/activeLaunchMode=run
@@ -25,7 +25,10 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_RTC_ALARM\ Debug/act
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_RTC_ALARM\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_RTC_TIMESTAMP\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_RTC_WAKEUP\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_SPI_EEPROM/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_SPI_EEPROM/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_SPI_U8G2\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_SPI_U8G2\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_BASIC\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_GENERAL\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4_LL_TIMER_GENERAL\ Debug/activeLaunchTarget=null\:---
