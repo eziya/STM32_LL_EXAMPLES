@@ -18,13 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
 #include "usart.h"
-#include "wwdg.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "25lc010a.h"
 #include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,7 +57,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 int __io_putchar (int ch)
 {
   while (!LL_USART_IsActiveFlag_TXE(USART2));
@@ -63,12 +64,15 @@ int __io_putchar (int ch)
   return ch;
 }
 
+uint8_t data;
+char *sndBuffer = "HELLO WORLD!HELLO WORLD!HELLO WORLD!HELLO WORLD!";
+char rcvBuffer[50];
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -97,20 +101,37 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_SPI2_Init();
   MX_USART2_UART_Init();
-  MX_WWDG_Init();
   /* USER CODE BEGIN 2 */
 
-  // check WWDG reset
-  if(LL_RCC_IsActiveFlag_WWDGRST())
-  {
-    printf("POR with WWDG reset flag.\r\n");
-    LL_RCC_ClearResetFlags();
-  }
-  else
-  {
-    printf("POR without WWDG reset flag.\r\n");
-  }
+  // configure SPI & GPIO variables
+  EEPROM_Init(SPI2, SPI2_CS_GPIO_Port, SPI2_CS_Pin);
+
+  // write byte 'A' and check
+  printf("EEPROM_WriteByte@0x00: A\r\n");
+  EEPROM_WriteByte(0x00, 'A');
+  data = EEPROM_ReadByte(0x00);
+  printf("EEPROM_ReadByte@0x00: %c\r\n", data);
+
+  // write byte 'B' and check
+  printf("EEPROM_WriteByte@0x01: B\r\n");
+  EEPROM_WriteByte(0x01, 'B');
+  data = EEPROM_ReadByte(0x01);
+  printf("EEPROM_ReadByte@0x01: %c\r\n", data);
+
+  // write buffer "HELLO WORLD!HELLO WORLD!" and check
+  printf("EEPROM_WriteBuffer@0x02: %s\r\n", sndBuffer);
+  EEPROM_WriteBuffer(0x02, (uint8_t*)sndBuffer, strlen(sndBuffer));
+  memset(rcvBuffer, 0, sizeof(rcvBuffer));
+  EEPROM_ReadBuffer(0x02, (uint8_t*)rcvBuffer,strlen(sndBuffer));
+  printf("EEPROM_ReadBuffer@0x02: %s\r\n", rcvBuffer);
+
+  // erase all and check
+  printf("EEPROM_EraseAll.\r\n");
+  EEPROM_EraseAll();
+  data = EEPROM_ReadByte(0x00);
+  printf("EEPROM_ReadByte@0x00: %c\r\n", data);
 
   /* USER CODE END 2 */
 
@@ -118,20 +139,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    //PCLK1 42000000Hz / 4096 / 8 = 1281Hz
-    //1 Clock time : 780.6us
-    //Refresh not allowed : (127 - 90) * 780.6 = 36.688ms
-    //WWDG Timeout : (127 - 63) * 780.6 = 49.958ms
-
-    //30ms delay will cause WWDG reset
-    //40ms delay will not cause WWDG reset
-    //50ms delay will cause WWDG reset
-    LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_12);
-    LL_mDelay(50);
-
-    //reset counter
-    LL_WWDG_SetCounter(WWDG, 127);
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -140,9 +147,9 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
@@ -152,15 +159,15 @@ void SystemClock_Config(void)
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
   LL_RCC_HSE_Enable();
 
-  /* Wait till HSE is ready */
+   /* Wait till HSE is ready */
   while(LL_RCC_HSE_IsReady() != 1)
   {
 
   }
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 168, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
-  /* Wait till PLL is ready */
+   /* Wait till PLL is ready */
   while(LL_RCC_PLL_IsReady() != 1)
   {
 
@@ -170,7 +177,7 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
-  /* Wait till System clock is ready */
+   /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
 
@@ -184,9 +191,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -200,12 +207,12 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
