@@ -171,12 +171,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* SPI Interface */
-  LL_SPI_Enable(I2C1);
+  LL_SPI_Enable(SPI2);
   u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_stm32_hw_spi, u8x8_stm32_gpio_and_delay);
 
-  /* I2C Interface */
-  LL_SPI_Enable(SPI2);
-  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_stm32_hw_i2c, u8x8_stm32_gpio_and_delay);
+  /* I2C Interface if you want i2c interface, disable SPI interface first. */
+  //LL_I2C_Enable(I2C1);
+  //u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_stm32_hw_i2c, u8x8_stm32_gpio_and_delay);
 
   /* Initialize Display */
   u8g2_InitDisplay(&u8g2);
