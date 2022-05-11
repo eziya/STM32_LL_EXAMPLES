@@ -264,7 +264,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // free I2C busy line
-  if(LL_I2C_IsActiveFlag_BUSY(I2C1))
+  while(LL_I2C_IsActiveFlag_BUSY(I2C1))
   {
     printf("I2C1 is busy. Toggle SCL to free I2C1.\r\n");
 
@@ -284,8 +284,7 @@ int main(void)
       LL_mDelay(1);
     }
 
-    printf("Reset system.\r\n");
-    while(1);
+    LL_mDelay(100);
   }
 
   // initialize BME280
