@@ -120,7 +120,7 @@ int main(void)
   {
     //PCLK1 42000000Hz / 4096 / 8 = 1281Hz
     //1 Clock time : 780.6us
-    //Refresh not allowed : (127 - 90) * 780.6 = 36.688ms
+    //Refresh not allowed : (127 - 80) * 780.6 = 36.688ms
     //WWDG Timeout : (127 - 63) * 780.6 = 49.958ms
 
     //30ms delay will cause WWDG reset

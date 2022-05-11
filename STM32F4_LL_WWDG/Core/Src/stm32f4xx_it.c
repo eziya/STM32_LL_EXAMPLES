@@ -209,6 +209,9 @@ void WWDG_IRQHandler(void)
   {
     LL_WWDG_ClearFlag_EWKUP(WWDG);
     printf("EWKUP.\r\n");
+
+    //reset counter
+    //LL_WWDG_SetCounter(WWDG, 127);
   }
 
   /* USER CODE END WWDG_IRQn 0 */
