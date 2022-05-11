@@ -42,8 +42,8 @@ void MX_IWDG_Init(void)
   // 32kHz / 32 = 1kHz
   LL_IWDG_SetPrescaler(IWDG, LL_IWDG_PRESCALER_32);
 
-  // counter 1000 is 1sec
-  LL_IWDG_SetReloadCounter(IWDG, 1000);
+  // counter (999+1) is 1sec
+  LL_IWDG_SetReloadCounter(IWDG, 999);
 
   while (LL_IWDG_IsReady(IWDG) != 1)
   {
